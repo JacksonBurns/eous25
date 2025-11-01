@@ -1,0 +1,9 @@
+# Python 3.11
+pandas
+chemprop[hpopt]>=2.2.1
+ipykernel
+ipywidgets
+matplotlib
+rdkit
+mordred-community
+tensorboard
