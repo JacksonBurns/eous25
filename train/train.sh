@@ -1,7 +1,6 @@
 chemprop train \
     --smiles-columns clean_smiles \
     -b 256 \
-    --molecule-featurizers morgan_count \
     -i ../data/training.csv \
     -o output \
     --from-foundation CheMeleon \
