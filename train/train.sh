@@ -3,11 +3,11 @@ chemprop train \
     -b 256 \
     --molecule-featurizers morgan_count \
     -i ../data/training.csv \
-    -o output_transmittance \
+    -o output \
     --from-foundation chemeleon_eous25_incremental_pretrain.ckpt \
     --ffn-hidden-dim 2048 \
     --ffn-num-layers 1 \
-    --target-columns T340 T450 \
+    --target-columns T340 T450 F340450 F480 \
     -t classification \
     --class-balance \
     -l bce \
@@ -16,24 +16,5 @@ chemprop train \
     --patience 5 \
     --split-sizes 0.90 0.10 0.00 \
     --data-seed 42 \
-    --pytorch-seed 42
-
-chemprop train \
-    --smiles-columns clean_smiles \
-    -b 256 \
-    --molecule-featurizers morgan_count \
-    -i ../data/training.csv \
-    -o output_fluorescence \
-    --from-foundation chemeleon_eous25_incremental_pretrain.ckpt \
-    --ffn-hidden-dim 2048 \
-    --ffn-num-layers 1 \
-    --target-columns F340450 F480 \
-    -t classification \
-    --class-balance \
-    -l bce \
-    --metrics roc prc accuracy f1 \
-    --epochs 50 \
-    --patience 5 \
-    --split-sizes 0.90 0.10 0.00 \
-    --data-seed 42 \
-    --pytorch-seed 42
+    --pytorch-seed 42 \
+    --num-replicates 4
