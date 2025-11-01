@@ -74,7 +74,6 @@ def train_one(outdir):
         n_layers=0,
         dropout=0.0,
         activation="relu",
-        # criterion=RandomMaskingMSE(),
     )
 
     model = MPNN(
@@ -86,7 +85,6 @@ def train_one(outdir):
         max_lr=1e-3,
         final_lr=1e-5,
         warmup_epochs=2,
-        # metrics=[RandomMaskingMSE()]
     )
     tensorboard_logger = TensorBoardLogger(
         outdir,

@@ -7,10 +7,11 @@ chemprop train \
     --from-foundation chemeleon_eous25_incremental_pretrain.ckpt \
     --ffn-hidden-dim 2048 \
     --ffn-num-layers 1 \
-    --target-columns T340_transform T450_transform \
-    -t regression \
-    -l mse \
-    --metrics mse mae rmse r2 \
+    --target-columns T340 T450 \
+    -t classification \
+    --class-balance \
+    -l bce \
+    --metrics roc prc accuracy f1 \
     --epochs 50 \
     --patience 5 \
     --split-sizes 0.90 0.10 0.00 \
