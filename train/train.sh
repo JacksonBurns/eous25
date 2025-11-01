@@ -4,7 +4,7 @@ chemprop train \
     --molecule-featurizers morgan_count \
     -i ../data/training.csv \
     -o output \
-    --from-foundation chemeleon_eous25_incremental_pretrain.ckpt \
+    --from-foundation CheMeleon \
     --ffn-hidden-dim 2048 \
     --ffn-num-layers 1 \
     --target-columns T340 T450 F340450 F480 \
