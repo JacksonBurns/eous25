@@ -50,7 +50,7 @@ chemprop train \
     -o output_step2_train \
     --from-foundation output_step1_train/model_0/best.pt \
     --ffn-hidden-dim 2048 \
-    --ffn-num-layers 1 \
+    --ffn-num-layers 2 \
     --target-columns T340 T450 F340450 F480 \
     -t classification \
     --class-balance \
