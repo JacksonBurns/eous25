@@ -7,3 +7,5 @@ matplotlib
 rdkit
 mordred-community
 tensorboard
+xgboost
+scikit-mol
