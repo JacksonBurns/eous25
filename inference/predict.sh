@@ -6,4 +6,4 @@ chemprop predict \
     --molecule-featurizers morgan_count \
     -i ../data/testing.csv \
     -o output/pred.csv \
-    --model-paths ../train/output/
+    --model-paths ../train/output_step2_train/
