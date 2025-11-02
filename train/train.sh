@@ -1,4 +1,3 @@
-# use this to tune towards the optimal model
 # chemprop hpopt \
 #     --smiles-columns clean_smiles \
 #     --molecule-featurizers morgan_count \
@@ -24,20 +23,15 @@
 #     --raytune-use-gpu \
 #     --raytune-search-algorithm optuna
 
-# this is set based on the output of the above
 chemprop train \
-    --init-lr 0.001536679517849679 \
-    --max-lr 0.0015679314580728588 \
-    --final-lr 6.819161996304235e-05 \
-    -b 16 \
-    --ffn-hidden-dim 600 \
-    --ffn-num-layers 2 \
-    --warmup-epochs 5 \
     --smiles-columns clean_smiles \
+    -b 256 \
     --molecule-featurizers morgan_count \
     -i ../data/training.csv \
     -o output \
     --from-foundation CheMeleon \
+    --ffn-hidden-dim 2048 \
+    --ffn-num-layers 1 \
     --target-columns T340 T450 F340450 F480 \
     -t classification \
     --class-balance \
