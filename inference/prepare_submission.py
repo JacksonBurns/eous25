@@ -4,6 +4,7 @@ import pandas as pd
 
 if __name__ == "__main__":
     pred_df = pd.read_csv(Path("output/pred.csv"))
+    # prf_pred_df = pd.read_csv(Path("../prf/t_pred.csv"))
 
     pd.DataFrame({
         "Transmittance(340)": pred_df["T340"],
