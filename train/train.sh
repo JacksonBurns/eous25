@@ -85,10 +85,11 @@ chemprop train \
     --data-seed 42 \
     --pytorch-seed 42 \
     --num-replicates 4 \
-    -b 32 \
-    --init-lr 0.0027123035958086803 \
-    --max-lr 0.003140305036056794 \
-    --final-lr 0.0014065166924732018 \
-    --warmup-epochs 16 \
+    --batch-norm \
+    --init-lr 0.00001 \
+    --max-lr 0.0001 \
+    --final-lr 0.00001 \
+    --warmup-epochs 3 \
+    -b 64 \
     --ffn-hidden-dim 2048 \
-    --ffn-num-layers 2
+    --ffn-num-layers 1
