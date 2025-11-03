@@ -31,7 +31,7 @@ chemprop train \
     -o output_step1_train \
     --from-foundation CheMeleon \
     --ffn-hidden-dim 2048 \
-    --ffn-num-layers 1 \
+    --ffn-num-layers 0 \
     --target-columns T340_actual T450_actual \
     -t regression \
     -l mse \
@@ -50,7 +50,7 @@ chemprop train \
     -o output_step2_train \
     --from-foundation output_step1_train/model_0/best.pt \
     --ffn-hidden-dim 2048 \
-    --ffn-num-layers 2 \
+    --ffn-num-layers 0 \
     --target-columns T340 T450 F340450 F480 \
     -t classification \
     --class-balance \
