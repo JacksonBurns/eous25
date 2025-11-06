@@ -44,14 +44,12 @@
 
 # chemprop hpopt \
 #     --smiles-columns clean_smiles \
-#     -b 256 \
 #     --molecule-featurizers morgan_count \
 #     -i ../data/training.csv \
 #     -o output_step2_train \
 #     --from-foundation /home/jwburns/eous25/train/output_step1_train/model_0/best.pt \
 #     --target-columns T340 T450 F340450 F480 \
 #     -t classification \
-#     --class-balance \
 #     -l bce \
 #     --metrics roc prc accuracy f1 \
 #     --epochs 50 \
@@ -60,8 +58,8 @@
 #     --data-seed 42 \
 #     --pytorch-seed 42 \
 #     --search-parameter-keywords ffn_hidden_dim ffn_num_layers batch_size init_lr_ratio max_lr final_lr_ratio warmup_epochs \
-#     --hpopt-save-dir /datad/jwburns/opt2 \
-#     --raytune-temp-dir /datad/jwburns/opt2 \
+#     --hpopt-save-dir /datad/jwburns/opt3_nobalance \
+#     --raytune-temp-dir /datad/jwburns/opt3_nobalance \
 #     --raytune-num-samples 256 \
 #     --raytune-max-concurrent-trials 8 \
 #     --raytune-num-gpus 8 \
@@ -76,7 +74,6 @@ chemprop train \
     --from-foundation output_step1_train/model_0/best.pt \
     --target-columns T340 T450 F340450 F480 \
     -t classification \
-    --class-balance \
     -l bce \
     --metrics roc prc accuracy f1 \
     --epochs 50 \
@@ -85,11 +82,10 @@ chemprop train \
     --data-seed 42 \
     --pytorch-seed 42 \
     --num-replicates 4 \
-    --batch-norm \
-    --init-lr 0.00001 \
-    --max-lr 0.0001 \
-    --final-lr 0.00001 \
-    --warmup-epochs 3 \
-    -b 64 \
-    --ffn-hidden-dim 2048 \
-    --ffn-num-layers 1
+    --init-lr 0.001357916096533254 \
+    --max-lr 0.0021609812629306887 \
+    --final-lr 0.00040987320585736994 \
+    --warmup-epochs 20 \
+    -b 16 \
+    --ffn-hidden-dim 2300 \
+    --ffn-num-layers 2

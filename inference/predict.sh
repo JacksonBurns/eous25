@@ -7,3 +7,5 @@ chemprop predict \
     -i ../data/testing.csv \
     -o output/pred.csv \
     --model-paths ../train/output_step2_train
+
+python prepare_submission.py
