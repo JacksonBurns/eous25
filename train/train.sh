@@ -78,14 +78,9 @@ chemprop train \
     --metrics roc prc accuracy f1 \
     --epochs 50 \
     --patience 5 \
-    --split-sizes 0.90 0.10 0.00 \
+    --split-sizes 0.80 0.20 0.00 \
     --data-seed 42 \
     --pytorch-seed 42 \
     --num-replicates 4 \
-    --init-lr 0.001357916096533254 \
-    --max-lr 0.0021609812629306887 \
-    --final-lr 0.00040987320585736994 \
-    --warmup-epochs 20 \
-    -b 16 \
-    --ffn-hidden-dim 2300 \
-    --ffn-num-layers 2
+    --ffn-hidden-dim 2048 \
+    --ffn-num-layers 1
