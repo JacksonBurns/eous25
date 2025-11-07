@@ -1,11 +1,12 @@
 # Python 3.11
 pandas
-chemprop[hpopt]>=2.2.1
-ipykernel
-ipywidgets
-matplotlib
+numpy
+astartes
+lightning
+chemprop>=2.2.1
+tensorboard
+scikit-learn
+joblib
+torch
 rdkit
 mordred-community
-tensorboard
-xgboost
-scikit-mol
