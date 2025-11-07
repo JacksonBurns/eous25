@@ -18,10 +18,10 @@ from common import (
     PreviousModelTransformer,
 )
 
-# just a manual guess at the settings
+# if you add a given target to the KNOWN_PARAMS dictionary, hyper parameter optimization will be skipped.
+# this is done here because this dataset is huge and takes a while to run, so I'm just taking a best guess at
+# the optimal settings
 _d = dict(stack_xgb=False, stack_knn=True, stack_ridge=False, stack_svr=False)
-
-# from previous hpopt runs
 KNOWN_PARAMS = {
     "F340450": _d,
     "T340": _d,
