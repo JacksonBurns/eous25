@@ -5,22 +5,32 @@ import numpy as np
 import pandas as pd
 from astartes import train_test_split
 from chemprop.data import MoleculeDatapoint, MoleculeDataset, build_dataloader
-from chemprop.featurizers import SimpleMoleculeMolGraphFeaturizer
+from chemprop.featurizers import SimpleMoleculeMolGraphFeaturizer, MorganCountFeaturizer
 from chemprop.models import MPNN, load_model
 from chemprop.nn import BinaryClassificationFFN
 from lightning import Trainer
 from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
 from lightning.pytorch.loggers import TensorBoardLogger
+from rdkit.Chem import MolFromSmiles
 
 NOW = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 
 def train_one(pretrained_ckpt, outdir):
     featurizer = SimpleMoleculeMolGraphFeaturizer()
+    ms = 2048
+    mcf = MorganCountFeaturizer(radius=3, length=ms)
 
     train_df = pd.read_csv(Path("../data/training.csv"))
     train_df.set_index("clean_smiles", drop=True, inplace=True)
-    train_df = train_df[["T340", "T450", "F340450", "F480"]]  # order matter for later inference!
+    train_df = train_df[["T340", "T450", "F340450", "F480"]]  # order matters for later inference!
+    
+    # downsample the abundant negatives
+    negative_mask = (train_df.values.sum(axis=1) == 0)
+    postitive_count = train_df.shape[0] - negative_mask.astype(int).sum()
+    print(f"There are {train_df.shape[0]} samples, of which {postitive_count} have at least one positive")
+    train_df = pd.concat((train_df[negative_mask].sample(n=postitive_count, random_state=42), train_df[~negative_mask]), axis=0)
+    print(f"Downsampled to {train_df.shape[0]} samples")
 
     train_idxs, val_idxs = train_test_split(
         np.arange(train_df.shape[0]),
@@ -30,10 +40,10 @@ def train_one(pretrained_ckpt, outdir):
     )
 
     train_data = [
-        MoleculeDatapoint.from_smi(smi, y) for smi, y in zip(train_df.iloc[train_idxs].index, train_df.iloc[train_idxs].values.astype(np.float32))
+        MoleculeDatapoint.from_smi(smi, y, x_d=mcf(MolFromSmiles(smi))) for smi, y in zip(train_df.iloc[train_idxs].index, train_df.iloc[train_idxs].values.astype(np.float32))
     ]
     val_data = [
-        MoleculeDatapoint.from_smi(smi, y) for smi, y in zip(train_df.iloc[val_idxs].index, train_df.iloc[val_idxs].values.astype(np.float32))
+        MoleculeDatapoint.from_smi(smi, y, x_d=mcf(MolFromSmiles(smi))) for smi, y in zip(train_df.iloc[val_idxs].index, train_df.iloc[val_idxs].values.astype(np.float32))
     ]
     train_dataset = MoleculeDataset(train_data, featurizer)
     val_dataset = MoleculeDataset(val_data, featurizer)
@@ -45,7 +55,7 @@ def train_one(pretrained_ckpt, outdir):
     agg = pretrained_model.agg
     fnn = BinaryClassificationFFN(
         n_tasks=4,
-        input_dim=mp.output_dim,
+        input_dim=mp.output_dim + ms,
         hidden_dim=2_048,
         n_layers=1,
         dropout=0.0,
@@ -57,8 +67,8 @@ def train_one(pretrained_ckpt, outdir):
         agg,
         fnn,
         batch_norm=False,
-        init_lr=1e-4,
-        max_lr=1e-3,
+        init_lr=1e-5,
+        max_lr=1e-4,
         final_lr=1e-5,
         warmup_epochs=2,
     )
@@ -82,7 +92,7 @@ def train_one(pretrained_ckpt, outdir):
         ),
     ]
     trainer = Trainer(
-        max_epochs=30,
+        max_epochs=50,
         logger=tensorboard_logger,
         log_every_n_steps=1,
         enable_checkpointing=True,

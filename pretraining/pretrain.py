@@ -41,7 +41,7 @@ def train_one(outdir):
 
     scaler = Path("scaler.joblib")
     if not scaler.exists():
-        qt = QuantileTransformer(output_distribution="normal", random_state=42, n_quantiles=1_000)
+        qt = QuantileTransformer(output_distribution="normal", random_state=42, n_quantiles=10_000)
         qt.fit(train_df.iloc[train_idxs].values)
     else:
         qt = joblib.load(scaler)
@@ -96,7 +96,7 @@ def train_one(outdir):
         ),
     ]
     trainer = Trainer(
-        max_epochs=30,
+        max_epochs=100,
         logger=tensorboard_logger,
         log_every_n_steps=1,
         enable_checkpointing=True,
