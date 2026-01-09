@@ -1,4 +1,4 @@
-chemprop predict \
+CUDA_VISIBLE_DEVICES=0 chemprop predict \
     --test-path ../data/testing.csv \
     --smiles-columns clean_smiles \
     --batch-size 1024 \
