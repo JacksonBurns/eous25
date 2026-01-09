@@ -1,0 +1,25 @@
+chemprop train \
+	--from-foundation CheMeleon \
+	--ffn-num-layers 1 \
+	--ffn-hidden-dim 2048 \
+	--batch-size 256 \
+	--epochs 50 \
+	--patience 5 \
+	--data-seed 42 \
+	--pytorch-seed 42 \
+	--data-path ../data/training.csv \
+	--smiles-columns clean_smiles \
+	--target-columns T340 T450 F340450 F480 \
+	--output-dir output_train \
+	--split-type random \
+	--split-sizes 0.80 0.20 0.00 \
+    --num-replicates 5 \
+    --task-type classification \
+	--loss bce \
+	--metrics roc prc accuracy f1 \
+    --init-lr 0.0001 \
+    --max-lr 0.001 \
+    --final-lr 0.00001 \
+    --warmup-epochs 2 \
+    --num-workers 8 \
+	--molecule-featurizers morgan_count rdkit_2d

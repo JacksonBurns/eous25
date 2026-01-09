@@ -1,12 +1,6 @@
 # Python 3.11
 pandas
-numpy
-astartes
-lightning
-chemprop>=2.2.1
-tensorboard
-scikit-learn
-joblib
-torch
 rdkit
-mordred-community
+git+https://github.com/chemprop/chemprop@5f8d951b6cf3677864f81f1fd056cb4f1af75816  # basically a pre-release of chemprop 2.2.2
+ipykernel
+matplotlib
